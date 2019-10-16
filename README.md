@@ -1,123 +1,326 @@
-# Hugo Whisper Theme
+# Hugo Book Theme
 
-Whisper is a minimal documentation theme built for Hugo. The design and functionality is intentionally minimal.
+[![Hugo](https://img.shields.io/badge/hugo-0.55-blue.svg)](https://gohugo.io)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-[Live Demo](https://hugo-whisper.netlify.com/) |
-[Zerostatic Themes](https://www.zerostatic.io/theme/hugo-whisper/)
+### [Hugo](https://gohugo.io) documentation theme as simple as plain book
 
-![Hugo Whisper Theme screenshot](https://github.com/JugglerX/hugo-whisper-theme/blob/master/images/screenshot-with-border.png)
+![Screenshot](https://github.com/alex-shpak/hugo-book/blob/master/images/screenshot.png)
 
-## Theme features
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Menu](#menu)
+- [Blog](#blog)
+- [Configuration](#configuration)
+- [Shortcodes](#shortcodes)
+- [Contributing](#contributing)
 
-### Content Types
+## Features
 
-- Docs (Markdown)
-- Homepage
+- Clean simple design
+- Light and Mobile-Friendly
+- Customisable
+- Designed to not interfere with other layouts
+- Zero initial configuration
+- Handy shortcodes
 
-### Content Management
+## Requirements
 
-- This theme generates documentation from markdown files located in `content/docs`
-- The "Home" page is not documentation, it can be used to introduce your project etc.
+- Hugo 0.55 or higher
+- Hugo extended version, read more [here](https://gohugo.io/news/0.48-relnotes/)
 
-### Features
+## Installation
 
-- Beautiful and clean typography for all semantic HTML elements
-
-### SCSS
-
-- SCSS (Hugo Pipelines)
-- Responsive design
-- Bootstrap 4 grid and media queries only
-
-### Speed
-
-- 100/100 Google Lighthouse speed score
-- 21KB without images ⚡
-- Vanilla JS only
-
-### Menu
-
-- Responsive mobile menu managed in `config.toml`
-
-### Content
-
-- Documentation examples included, using all markdown syntax
-
-# Installation
-
-To use this theme you will need to have Hugo installed. If you don't already have Hugo installed please follow the official [installation guide](https://gohugo.io/getting-started/installing/)
-
-### Check Hugo version (Hugo 0.51+ Extended is required)
-
-This theme uses [Hugo Pipes](https://gohugo.io/hugo-pipes/scss-sass/) to compile SCSS and minify assets. Please make sure you have the **Hugo Extended** version installed. If you are not using the extended version this theme will not not compile.
-
-To check your version of Hugo, run:
+Navigate to your hugo project root and run:
 
 ```
-hugo version
+git submodule add https://github.com/alex-shpak/hugo-book themes/book
 ```
 
-This will output the currently installed version of Hugo. Make sure you see `/extended` after the version number, for example `Hugo Static Site Generator v0.51/extended darwin/amd64 BuildDate: unknown` You do not need to use version v0.51 specifically, you can use any version of Hugo above 0.51. It just needs to have the `/extended` part
-
-### Create a new Hugo site
+Then run hugo (or set `theme = "book"`/`theme: book` in configuration file)
 
 ```
-hugo new site mynewsite
+hugo server --minify --theme book
 ```
 
-This will create a fresh Hugo site in the folder `mynewsite`.
+### Creating site from scratch
 
-### Install theme
+Below is example how to create new site from scratch
 
-Copy or git clone this theme into the sites themes folder `mynewsite/themes`
-
-#### Install with Git
-
-```
-cd mynewsite
-git clone https://github.com/jugglerx/hugo-whisper-theme.git themes/hugo-whisper-theme
+```sh
+hugo new site mydocs; cd mydocs
+git init
+git submodule add https://github.com/alex-shpak/hugo-book themes/book
+cp -R themes/book/exampleSite/content .
 ```
 
-#### Install from .zip file
-
-You can download the .zip file located here https://github.com/JugglerX/hugo-whisper-theme/archive/master.zip.
-
-Extract the downloaded .zip inside the `themes` folder. Rename the extracted folder from `hugo-whisper-theme-master` -> `hugo-whisper-theme`. You should end up with the following folder structure `mynewsite/themes/hugo-whisper-theme`
-
-### Add example content
-
-Copy the entire contents of the `mynewsite/themes/hugo-whisper-theme/exampleSite/` folder to root folder of your Hugo site, ie `mynewsite/`
-
-To copy the files using terminal, make sure you are still in the projects root, ie the `mynewsite` folder.
-
-```
-cp -a themes/hugo-whisper-theme/exampleSite/. .
+```sh
+hugo server --minify --theme book
 ```
 
-### Update config.toml
+## Menu
 
-After you copy the `config.toml` into the root folder of your Hugo site you will need to update the `baseURL`, `themesDir` and `theme` values in `mynewsite/config.toml`
+### File tree menu (default)
 
-```
-baseURL = "/"
-themesDir = "themes"
-theme = "hugo-whisper-theme"
-```
+By default theme will render pages from `content/docs` section as menu in a tree structure.  
+You can set `title` and `weight` in front matter of pages to adjust order and titles in menu.
 
-### Run Hugo
+### Leaf bundle menu
 
-After installing the theme for the first time, generate the Hugo site.
-
-You run this command from the root folder of your Hugo site ie `mynewsite/`
+You can also use leaf bundle and content of it's `index.md` as menu.  
+Given you have this file structure
 
 ```
-hugo
+├── content
+│   ├── docs
+│   │   ├── page-one.md
+│   │   └── page-two.md
+│   └── posts
+│       ├── post-one.md
+│       └── post-two.md
 ```
 
-For local development run Hugo's built-in local server.
+Create file `content/docs/menu/index.md` with content
+
+```md
++++
+headless = true
++++
+
+- [Book Example]({{< relref "/docs/" >}})
+  - [Page One]({{< relref "/docs/page-one" >}})
+  - [Page Two]({{< relref "/docs/page-two" >}})
+- [Blog]({{< relref "/posts" >}})
+```
+
+And Enable it by settings `BookMenuBundle: /menu` in Site configuration
+
+- [Example menu](https://github.com/alex-shpak/hugo-book/blob/master/exampleSite/content/menu/index.md)
+- [Example config file](https://github.com/alex-shpak/hugo-book/blob/master/exampleSite/config.yaml)
+- [Leaf bundles](https://gohugo.io/content-management/page-bundles/)
+
+## Blog
+
+Simple blog supported for section `posts`.  
+Blog is not primary use case so book theme so it has only minimal features
+
+## Configuration
+
+### Site Configuration
+
+There are few configuration options you can add to your `config.toml` file.  
+You can also see `yaml` example [here](https://github.com/alex-shpak/hugo-book/blob/master/exampleSite/config.yaml).
+
+```toml
+# (Optional) Set Google Analytics if you use it to track your website.
+# Always put it on the top of the configuration file, otherwise it won't work
+googleAnalytics = "UA-XXXXXXXXX-X"
+
+# (Optional) Set this to true if you use capital letters in file names
+disablePathToLower = true
+
+# (Optional) Set this to true to enable 'Last Modified by' date and git author
+#  information on 'doc' type pages.
+enableGitInfo = true
+
+# (Optional) Theme is intended for documentation use, therefore it doesn't render taxonomy.
+# You can remove related files with config below
+disableKinds = ['taxonomy', 'taxonomyTerm']
+  
+[params]
+  # (Optional, default 6) Set how many table of contents levels to be showed on page.
+  # Use false to hide ToC, note that 0 will default to 6 (https://gohugo.io/functions/default/)
+  # You can also specify this parameter per page in front matter
+  BookToC = 3
+  
+  # (Optional, default none) Set the path to a logo for the book. If the logo is
+  # /static/logo.png then the path would be 'logo.png'
+  BookLogo = 'logo.png'
+  
+  # (Optional, default none) Set leaf bundle to render as side menu
+  # When not specified file structure and weights will be used
+  BookMenuBundle = '/menu'
+  
+  # (Optional, default docs) Specify section of content to render as menu
+  # You can also set value to "*" to render all sections to menu
+  BookSection = 'docs'
+  
+  # Set source repository location.
+  # Used for 'Last Modified' and 'Edit this page' links.
+  BookRepo = 'https://github.com/alex-shpak/hugo-book'
+  
+  # Enable 'Edit this page' links for 'doc' page type.
+  # Disabled by default. Uncomment to enable. Requires 'BookRepo' param.
+  # Path must point to 'content' directory of repo.
+  BookEditPath = 'edit/master/exampleSite/content'
+  
+  # (Optional, default January 2, 2006) Configure the date format used on the pages
+  # - In git information
+  # - In blog posts
+  BookDateFormat = 'Jan 2, 2006'
+  
+  # (Optional, default true) Enables search function with lunr.js,
+  # Index is built on fly, therefore it might slowdown your website.
+  BookSearch = true
+```
+
+### Page Configuration
+
+You can specify additional params per page in front matter
+
+```toml
+# Set type to 'docs' if you want to render page outside of configured section or if you render section other than 'docs'
+type = 'docs'
+
+# Set page weight to re-arrange items in file-tree menu (if BookMenuBundle not set)
+weight = 10
+
+# (Optional) Set to mark page as flat section in file-tree menu (if BookMenuBundle not set)
+bookFlatSection = true
+
+# (Optional, Experimental) Set to hide nested sections or pages at that level. Works only with file-tree menu mode
+bookCollapseSection = true
+
+# (Optional) Set true to hide page or section from side menu (if BookMenuBundle not set)
+bookHidden = true
+
+# (Optional) Set how many levels of ToC to show. use 'false' to hide ToC completely
+bookToC = 3
+```
+
+### Partials
+
+There are few empty partials you can override in `layouts/partials/`
+
+| Partial                                         | Placement                              |
+| ----------------------------------------------- | -------------------------------------- |
+| `layouts/partials/docs/inject/head.html`        | Before closing `<head>` tag            |
+| `layouts/partials/docs/inject/body.html`        | Before closing `<body>` tag            |
+| `layouts/partials/docs/inject/footer.html`      | After page content                     |
+| `layouts/partials/docs/inject/menu-before.html` | At the beginning of `<nav>` menu block |
+| `layouts/partials/docs/inject/menu-after.html`  | At the end of `<nav>` menu block       |
+
+### Extra Customisation
+
+| File                     | Description                                                                           |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `static/favicon.png`     | Override default favicon                                                              |
+| `assets/_custom.scss`    | Customise or override scss styles                                                     |
+| `assets/_variables.scss` | Override default SCSS variables                                                       |
+| `assets/_fonts.scss`     | Replace default font with custom fonts (e.g. local files or remote like google fonts) |
+
+### Hugo Internal Templates
+
+There are few hugo tempaltes inserted in `<head>`
+
+- [Google Analytics](https://gohugo.io/templates/internal/#google-analytics)
+- [Open Graph](https://gohugo.io/templates/internal/#open-graph)
+
+## Shortcodes
+
+### Hint
+
+Hint shortcode can be used as hint/alerts/notification block. There are 3 colors to choose: `info`, `warning` and `danger`.
+
+```tpl
+{{< hint [info|warning|danger] >}}
+**Markdown content**  
+Lorem markdownum insigne. Olympo signis Delphis! Retexi Nereius nova develat
+stringit, frustra Saturnius uteroque inter! Oculis non ritibus Telethusa
+{{< /hint >}}
+```
+
+### Buttons
+
+Buttons are styled links to internal of external pages
 
 ```
-hugo server
+{{< button relref="/" >}}Get Home{{< /button >}}
+{{< button href="https://github.com/alex-shpak/hugo-book" >}}Contribute{{< /button >}}
 ```
 
-Now enter [`localhost:1313`](http://localhost:1313) in the address bar of your browser.
+
+### Tabs
+
+Useful if you want to show alternative information per platform or setting.
+
+```
+{{< tabs "uniqueid" >}}
+{{< tab "MacOS" >}} # MacOS Content {{< /tab >}}
+{{< tab "Linux" >}} # Linux Content {{< /tab >}}
+{{< tab "Windows" >}} # Windows Content {{< /tab >}}
+{{< /tabs >}}
+```
+
+### Multi column text
+
+Organize text in 2 or more columns to use space efficiently.
+
+```html
+{{< columns >}}
+<!-- begin columns block -->
+
+# Left Content Lorem markdownum insigne... <--->
+<!-- magic sparator, between columns -->
+
+# Mid Content Lorem markdownum insigne... <--->
+<!-- magic sparator, between columns -->
+
+# Right Content Lorem markdownum insigne... {{< /columns >}}
+```
+
+### Expand
+
+Provides clickable panel that show extra hidden content.
+
+```
+{{< expand >}}
+## Markdown content
+{{< /expand >}}
+```
+
+### Mermaid Charts
+
+Render various charts with [mermaidjs](https://mermaidjs.github.io/)
+
+```
+{{< mermaid >}}
+sequenceDiagram
+    Alice->>Bob: Hello Bob, how are you?
+    alt is sick
+        Bob->>Alice: Not so good :(
+    else is well
+        Bob->>Alice: Feeling fresh like a daisy
+    end
+    opt Extra response
+        Bob->>Alice: Thanks for asking
+    end
+{{< /mermaid >}}
+```
+
+### KaTeX Syntax
+
+Render math formulas with [KaTeX](https://katex.org/)
+
+```
+{{< katex >}}
+x = \begin{cases}
+   a &\text{if } b \\
+   c &\text{if } d
+\end{cases}
+{{< /katex >}}
+```
+
+## Contributing
+
+### [Extra credits to contributors](https://github.com/alex-shpak/hugo-book/graphs/contributors)
+
+Contributions are welcome and I will review and consider pull requests.  
+Primary goals are:
+
+- Keep it simple
+- Keep minimal (or zero) default configuration
+- Avoid interference with user-defined layouts
+
+Feel free to open issue if you missing some configuration or customisation option.

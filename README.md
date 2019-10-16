@@ -1,198 +1,123 @@
-# Strange Case - Bootstrap Clone of Hyde for Hugo
+# Hugo Whisper Theme
 
-Strange Case was built for people who like the original Jekyll theme [Hyde](https://github.com/poole/hyde) and its [port to Hugo](https://github.com/spf13/hyde) but prefer to use [Bootstrap](http://getbootstrap.com).
+Whisper is a minimal documentation theme built for Hugo. The design and functionality is intentionally minimal.
 
-The theme was built from an empty Bootstrap 3 template with the goal of easy modification for end users. The code is as simple as possible - clearly formatted HTML and a single stylesheet. It's a two column responsive design and currently includes version 3.3.7 of Bootstrap.
+[Live Demo](https://hugo-whisper.netlify.com/) |
+[Zerostatic Themes](https://www.zerostatic.io/theme/hugo-whisper/)
 
-Pull requests are welcome.
+![Hugo Whisper Theme screenshot](https://github.com/JugglerX/hugo-whisper-theme/blob/master/images/screenshot-with-border.png)
 
-![Strange Case Screenshot](https://i.imgur.com/i7aarpG.png)
+## Theme features
 
+### Content Types
 
-## Contents
+- Docs (Markdown)
+- Homepage
 
-- [Installation](#installation)
-- [Customization](#customization)
-  - [Sidebar](#sidebar)
-  - [Color Schemes](#color-schemes)
-  - [Analytics](#analytics)
-  - [Example Config](#example-config)
-- [Author](#author)
-- [Inspired By](#inspired-by)
-- [License](#license)
+### Content Management
 
+- This theme generates documentation from markdown files located in `content/docs`
+- The "Home" page is not documentation, it can be used to introduce your project etc.
 
-## Installation
+### Features
 
-Installing **Strange Case** is easy. Simple clone this repo to `themes/` in your Hugo folder.
+- Beautiful and clean typography for all semantic HTML elements
 
-    ~$ cd your-hugo-folder/themes/
-    ~$ git clone https://github.com/ExchangeRate-API/strange-case.git
+### SCSS
 
-Next, open the `config.toml` file in the base of the Hugo folder and ensure the theme is set to `strange-case`.
+- SCSS (Hugo Pipelines)
+- Responsive design
+- Bootstrap 4 grid and media queries only
 
-    theme = "strange-case"
+### Speed
 
+- 100/100 Google Lighthouse speed score
+- 21KB without images ⚡
+- Vanilla JS only
 
-## Customization
+### Menu
 
-There are various options you can easily set from your `config.toml` file.
+- Responsive mobile menu managed in `config.toml`
 
-This text will appear after the Title of your site in your `<title>` meta tag:
+### Content
 
-	description = "A Hugo Theme built with Bootstrap"
+- Documentation examples included, using all markdown syntax
 
+# Installation
 
-### Sidebar
+To use this theme you will need to have Hugo installed. If you don't already have Hugo installed please follow the official [installation guide](https://gohugo.io/getting-started/installing/)
 
-This text will appear in the sidebar immediately under your site's Title:
+### Check Hugo version (Hugo 0.51+ Extended is required)
 
-	sidebarDescription = "A Hugo Theme built with Bootstrap"
+This theme uses [Hugo Pipes](https://gohugo.io/hugo-pipes/scss-sass/) to compile SCSS and minify assets. Please make sure you have the **Hugo Extended** version installed. If you are not using the extended version this theme will not not compile.
 
-This text will appear in a free paragraph below the Title & sidebarDescription and above the menu links. Set it to "" if you don't want it.
+To check your version of Hugo, run:
 
-	sidebarFreeText = "A optional paragraph of free text. Set to blank in config.toml to clear..."
+```
+hugo version
+```
 
-You can also include useful menu links by including `"menu=main"` items in your `config.toml`. Example:
+This will output the currently installed version of Hugo. Make sure you see `/extended` after the version number, for example `Hugo Static Site Generator v0.51/extended darwin/amd64 BuildDate: unknown` You do not need to use version v0.51 specifically, you can use any version of Hugo above 0.51. It just needs to have the `/extended` part
 
-	[[menu.main]]
-		name = "Hugo"
-		post = "<span class='glyphicon glyphicon-fire'></span>"
-		url = "http://gohugo.io"
+### Create a new Hugo site
 
-You can optionally use the `pre` and `post` vars to include HTML before or after the `name` in the resulting links.
+```
+hugo new site mynewsite
+```
 
-You can use the `"contact_email"` field in `[params]` to set a mailto: link the in the sidebar. Leave blank if you don't want it.
+This will create a fresh Hugo site in the folder `mynewsite`.
 
+### Install theme
 
-### Color Schemes
+Copy or git clone this theme into the sites themes folder `mynewsite/themes`
 
-In keeping with our attempt to replicate the original Hyde in Bootstrap we've included some colour scheme options. These are not the same as in the original, but we used palettes from the same [Base16](https://github.com/chriskempson/base16) project.
+#### Install with Git
 
-![Strange Case in Light Brown](https://i.imgur.com/oLjV8LV.png)
+```
+cd mynewsite
+git clone https://github.com/jugglerx/hugo-whisper-theme.git themes/hugo-whisper-theme
+```
 
-The themes are:
+#### Install from .zip file
 
-- Dark Brown (`colorScheme="scheme-darkbrown"`)
-- Light Brown (`colorScheme="scheme-lightbrown"`)
-- Green (`colorScheme="scheme-green"`)
-- Orange (`colorScheme="scheme-orange"`)
-- Slate (`colorScheme="scheme-slate"`)
+You can download the .zip file located here https://github.com/JugglerX/hugo-whisper-theme/archive/master.zip.
 
-And then a bonus theme that isn't from Base16:
+Extract the downloaded .zip inside the `themes` folder. Rename the extracted folder from `hugo-whisper-theme-master` -> `hugo-whisper-theme`. You should end up with the following folder structure `mynewsite/themes/hugo-whisper-theme`
 
-- Gulf Racing (`colorScheme="scheme-gulfracing"`)
+### Add example content
 
-Using a theme is as simple as changing the `colorScheme` param in your `config.toml`. Example:
+Copy the entire contents of the `mynewsite/themes/hugo-whisper-theme/exampleSite/` folder to root folder of your Hugo site, ie `mynewsite/`
 
-	baseurl = "/blog"
-	title = "Strange Case Hugo Theme"
+To copy the files using terminal, make sure you are still in the projects root, ie the `mynewsite` folder.
 
-	theme = "strange-case"
+```
+cp -a themes/hugo-whisper-theme/exampleSite/. .
+```
 
-	[params]
-		colorScheme = "scheme-darkbrown"
-		DateFormat = "2 Jan 2006"
-		description = "A Hugo Theme built with Bootstrap"
-		sidebarDescription = "A Hugo Theme built with Bootstrap"
-		sidebarFreeText = "A optional paragraph of free text. Set to blank in config.toml to clear..."
+### Update config.toml
 
+After you copy the `config.toml` into the root folder of your Hugo site you will need to update the `baseURL`, `themesDir` and `theme` values in `mynewsite/config.toml`
 
-#### Creating Your Own Color Scheme
+```
+baseURL = "/"
+themesDir = "themes"
+theme = "hugo-whisper-theme"
+```
 
-To create your own custom color scheme simply scroll to the end of the `strange-case.css` stylesheet in the `your-hugo-dir/themes/strange-case/static` folder and edit the template we've left there.
+### Run Hugo
 
-We'll happily accept pull requests for quality color schemes.
+After installing the theme for the first time, generate the Hugo site.
 
+You run this command from the root folder of your Hugo site ie `mynewsite/`
 
-### Analytics
+```
+hugo
+```
 
-This theme supports Hugo's native GA integration & a Piwik integration.
+For local development run Hugo's built-in local server.
 
-For Google Analytics, simply set your UA number in your `config.toml` file. Example:
+```
+hugo server
+```
 
-	baseurl = "/blog"
-	title = "Strange Case Hugo Theme"
-
-	theme = "strange-case"
-
-	googleAnalytics = "UA-123-456"
-
-For Piwik, set the following two `params` as below:
-
-	baseurl = "/blog"
-	title = "Strange Case Hugo Theme"
-
-	theme = "strange-case"
-
-	[params]
-		colorScheme = "scheme-darkbrown"
-		piwikSiteID = "1234"
-		piwikURL = "www.your-site.com"
-
-
-## Example Config
-
-Here is a full example `config.toml`:
-
-	baseurl = "http://www.your-blog.com"
-	title = "Your Blog Title"
-	author = "You"
-	copyright = "Your Copyright"
-	canonifyurls = true
-	paginate = 5
-
-	googleAnalytics = ""
-
-	theme = "strange-case"
-
-	[params]
-		colorScheme = "scheme-darkbrown"
-		DateFormat = "2 Jan 2006"
-		description = "A blog about content"
-		sidebarDescription = "This is my blog about content"
-		sidebarFreeText = "A optional paragraph of free text. Set to blank in config.toml to clear..."
-		piwikSiteID = ""
-		piwikURL = ""
-
-	[[menu.main]]
-		name = "Hugo"
-		post = "<span class='glyphicon glyphicon-fire'></span>"
-		url = "http://gohugo.io"
-
-	[[menu.main]]
-		name = "Bootstrap"
-		post = "<span class='glyphicon glyphicon-ok'></span>"
-		url = "http://getbootstrap.com"
-
-
-## Author
-
-**ExchangeRate-API.com**
-
-- <https://github.com/ExchangeRate-API/>
-- <https://www.exchangerate-api.com>
-
-#### Strange Case Uses Bootstrap
-
-**Bootstrap**
-
- - <http://getbootstrap.com>
-
-
-## Inspired By
-
-**Mark Otto** - creator of the Hyde Jekyll theme
-
-- <https://github.com/mdo>
-- <https://twitter.com/mdo>
-
-**Steve Francia** - porter of the original Hyde theme to Hugo
-
-- <https://github.com/spf13>
-- <https://twitter.com/spf13>
-
-
-## Licensing
-
-This theme is released under the [MIT License](LICENSE.md).
+Now enter [`localhost:1313`](http://localhost:1313) in the address bar of your browser.

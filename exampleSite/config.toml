@@ -1,29 +1,48 @@
-baseurl = "https://gohugo.io/"
-title = "Hugo Themes"
-author = "Steve Francia"
-copyright = "Copyright (c) 2008 - 2014, Steve Francia; all rights reserved."
-canonifyurls = true
-paginate = 3
+baseURL = "www.example.com"
+languageCode = "en-us"
+title = "Hugo Whisper Theme"
+themesDir = "../.."
+theme = "hugo-whisper-theme"
 
-googleAnalytics = ""
+pygmentsCodeFences = true
+pygmentsCodefencesGuessSyntax = true
+pygmentsUseClasses = true
 
-theme = "strange-case"
+# Controls how many words are printed in the content summary on the docs homepage.
+# See https://gohugo.io/content-management/summaries/
+summaryLength = 30
+
+[[menu.main]]
+    name = "Home"
+    url = "/"
+    weight = 1
+
+[[menu.main]]
+    name = "Docs"
+    url = "/docs/"
+    weight = 2
 
 [params]
-	colorScheme = "scheme-darkbrown"
-	dateformat = "Jan 2, 2006"
-	description = "A Hugo Theme built with Bootstrap"
-	sidebarDescription = "A Hugo Theme built with Bootstrap"
-	sidebarFreeText = "A optional paragraph of free text. Set to blank in config.toml to clear..."
-	piwikSiteID = ""
-	piwikURL = ""
+  google_analytics_id=""
+  homepage_button_link = '/docs'
+  homepage_button_text = 'Read The Docs'
+  homepage_intro = 'Whisper is a documentation theme built with Hugo. The design and functionality is intentionally minimal.'
+  homepage_image = '/images/terminal.gif'
 
-[[menu.main]]
-	name = "Hugo"
-	post = "<span class='glyphicon glyphicon-fire'></span>"
-	url = "http://gohugo.io"
+  ## You can enable to add anchor links to header elements
+  # enable_anchor_link = true
 
-[[menu.main]]
-	name = "Bootstrap"
-	post = "<span class='glyphicon glyphicon-ok'></span>"
-	url = "http://getbootstrap.com"
+  [params.homepage_meta_tags]
+    meta_description = "Hugo Whisper is a documentation theme built with Hugo."
+    meta_og_title = "Hugo Whisper Theme"
+    meta_og_type = "website"
+    meta_og_url = "https://hugo-whisper.netlify.com"
+    meta_og_image = "https://raw.githubusercontent.com/JugglerX/hugo-whisper-theme/master/images/tn.png"
+    meta_og_description = "Hugo Whisper is a documentation theme built with Hugo."
+    meta_twitter_card = "summary"
+    meta_twitter_site = "@zerostaticio"
+    meta_twitter_creator = "@zerostaticio"
+
+  [params.logo]
+      mobile = "/images/logo-mobile.svg"
+      standard  = "/images/logo.svg"

@@ -1,35 +1,56 @@
-{{ partial "header.html" . }}
+{{ define "title" }}{{ .Site.Title }}{{ end}}
+{{ define "header_css" }}{{ end }}
+{{ define "body_classes" }}page-home{{ end }}
+{{ define "header_classes" }}{{ end }}
 
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm-4 col-md-3 col-lg-3 sidebar">
+{{ define "meta_tags" }}
+<meta name="description" content="{{ .Site.Params.homepage_meta_tags.meta_description }}" />
+<meta property="og:title" content="{{ .Site.Params.homepage_meta_tags.meta_og_title }}" />
+<meta property="og:type" content="{{ .Site.Params.homepage_meta_tags.meta_og_type }}" />
+<meta property="og:url" content="{{ .Site.Params.homepage_meta_tags.meta_og_url }}" />
+<meta property="og:image" content="{{ .Site.Params.homepage_meta_tags.meta_og_image }}" />
+<meta property="og:description" content="{{ .Site.Params.homepage_meta_tags.meta_og_description }}" />
+<meta name="twitter:card" content="{{ .Site.Params.homepage_meta_tags.meta_twitter_card }}" />
+<meta name="twitter:site" content="{{ .Site.Params.homepage_meta_tags.meta_twitter_site }}" />
+<meta name="twitter:creator" content="{{ .Site.Params.homepage_meta_tags.meta_twitter_creator }}" />
+{{ end }}
 
-			{{ partial "sidebar-content.html" . }}
+{{ define "main" }}
+<div class="strip">
+  <div class="container pt-4 pb-16">
+    <div class="row">
+      <div class="col-12">
+        <h1 class="title">{{ .Title | default .Site.Title }}</h1>
+        <div class="content">
+          {{ if .Content }}
+          {{ .Content }}
+          {{ else }}
+          <p>{{ .Site.Params.homepage_intro }}</p>
+          {{ end }}
+        </div>
+        <a class="button button-primary mb-2" href="{{ .Site.Params.homepage_button_link | relURL }}">
+          {{ .Site.Params.homepage_button_text }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
 
-			</div>
-			<div class="col-sm-7 col-sm-offset-4 col-md-6 col-md-offset-3 col-lg-5 col-lg-offset-3 content">
+{{ if .Site.Params.homepage_image }}
+<div class="strip">
+  <div class="container pt-4 pb-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10">
+        <div class="terminal">
+          <img src="{{ .Site.Params.homepage_image | relURL}}" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{{ end }}
 
-				{{ range .Paginator.Pages }}
-				<div class="post">
+{{ end }}
 
-					<div class="post-heading">
-						<h1><a href="{{ .Permalink }}">{{ .Title }}</a></h1>
-						<span>{{ .Date.Format "Jan 2, 2006" }}{{ if .Params.author }} by {{ .Params.author }}{{ end }}</span>
-					</div>
-
-					{{ .Content }}
-
-				</div>
-				{{ end }}
-
-				<div class="text-center">
-					{{ template "_internal/pagination.html" . }}
-				</div>
-
-			</div>
-			<div class="col-sm-1 col-md-3 col-md-4">
-			</div>
-		</div>
-	</div>
-
-{{ partial "footer.html" . }}
+{{ define "footer_js" }}
+{{ end }}
